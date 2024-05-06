@@ -1,0 +1,28 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and Push Docker Image
+        uses: mr-smithers-excellent/docker-build-push@v4
+        with:
+          image: nanajanashia/demo-app
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Deploy to AWS
+        run: |
+          aws ecr get-login-password --region ${{ secrets.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin your-account-id.dkr.ecr.your-region.amazonaws.com
+          docker pull your-account-id.dkr.ecr.your-region.amazonaws.com/your-image-name:latest
+          docker run -d -p 80:80 your-account-id.dkr.ecr.your-region.amazonaws.com/your-image-name:latest
