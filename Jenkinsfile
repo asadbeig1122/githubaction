@@ -1,37 +1,34 @@
 pipeline {
-    agent any
-    
+    agent any 
     environment {
-        DOCKER_REGISTRY = "docker.io"
-        DOCKER_IMAGE = "yourusername/yourimagename"
-        DOCKER_TAG = "latest"
+    DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
     }
-    
-    stages {
-        stage('Build') {
-            steps {
-                script {
-                    docker.build "${DOCKER_IMAGE}:${DOCKER_TAG}"
-                }
+    stages { 
+        stage('SCM Checkout') {
+            steps{
+            git 'https://github.com/asadbeig1122/githubaction.git'
             }
         }
-        
-        stage('Push') {
-            steps {
-                script {
-                    docker.withRegistry("${DOCKER_REGISTRY}", "${DOCKER_CREDENTIAL_ID}") {
-                        docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push()
-                    }
-                }
+
+        stage('Build docker image') {
+            steps {  
+                sh 'docker build -t asadsadaqat11/test:$BUILD_NUMBER .'
             }
         }
-        
-        stage('Deploy') {
-            steps {
-                script {
-                    sh "kubectl apply -f your_deployment_manifest.yaml"
-                }
+        stage('login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
+        }
+        stage('push image') {
+            steps{
+                sh 'docker push  asadsadaqat11/test:$BUILD_NUMBER'
+            }
+        }
+}
+post {
+        always {
+            sh 'docker logout'
         }
     }
 }
