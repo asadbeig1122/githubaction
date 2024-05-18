@@ -1,7 +1,7 @@
 pipeline {
-agent any
+    agent any
     environment {
-    DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
+        DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
     }
     stages {
         stage('Install Git') {
@@ -9,32 +9,31 @@ agent any
                 sh 'sudo apt-get update && sudo apt-get install -y git'
             }
         }
-    stages { 
         stage('SCM Checkout') {
-            steps{
-            git 'https://github.com/asadbeig1122/githubaction.git'
+            steps {
+                git 'https://github.com/asadbeig1122/githubaction.git'
             }
         }
-
         stage('Build docker image') {
-            steps {  
+            steps {
                 sh 'docker build -t asadsadaqat11/test:$BUILD_NUMBER .'
             }
         }
-        stage('login to dockerhub') {
-            steps{
+        stage('Login to DockerHub') {
+            steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
-        stage('push image') {
-            steps{
-                sh 'docker push  asadsadaqat11/test:$BUILD_NUMBER'
+        stage('Push image') {
+            steps {
+                sh 'docker push asadsadaqat11/test:$BUILD_NUMBER'
             }
         }
-}
-post {
+    }
+    post {
         always {
             sh 'docker logout'
         }
     }
 }
+
