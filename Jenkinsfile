@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Install Git') {
             steps {
-                sh 'sudo apt-get update && sudo apt-get install -y git'
+                sh 'apt-get update && apt-get install -y git'
             }
         }
         stage('SCM Checkout') {
