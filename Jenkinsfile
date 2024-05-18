@@ -3,6 +3,12 @@ agent any
     environment {
     DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
     }
+    stages {
+        stage('Install Git') {
+            steps {
+                sh 'sudo apt-get update && sudo apt-get install -y git'
+            }
+        }
     stages { 
         stage('SCM Checkout') {
             steps{
