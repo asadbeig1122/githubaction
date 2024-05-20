@@ -6,14 +6,13 @@ pipeline {
     stages {
         stage('SCM Checkout') {
             steps {
-                sh 'sudo apt-get update && apt-get install -y git && apt-get clean && rm -rf /var/lib/apt/lists/*'
 
                 git 'https://github.com/asadbeig1122/githubaction.git'
             }
         }
         stage('Build docker image') {
             steps {
-                sh 'sudo apt install docker.io -y'
+                
                 sh 'docker build -t asadsadaqat11/test:$BUILD_NUMBER .'
             }
         }
