@@ -7,7 +7,7 @@ pipeline {
         stage('SCM Checkout') {
             steps {
 
-                git 'https://github.com/asadbeig1122/githubaction.git'
+               sh 'git clone https://github.com/asadbeig1122/githubaction.git'
             }
         }
         stage('Build docker image') {
