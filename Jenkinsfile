@@ -3,12 +3,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
     }
-    stages {
-        stage('Install Git') {
-            steps {
-                sh 'sudo apt-get update &&  sudo apt-get install -y git'
-            }
-        }
+   
         stage('SCM Checkout') {
             steps {
                 git 'https://github.com/asadbeig1122/githubaction.git'
