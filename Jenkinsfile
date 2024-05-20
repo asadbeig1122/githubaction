@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('asadsadaqat11')
     }
-   
+    stages {
         stage('SCM Checkout') {
             steps {
                 git 'https://github.com/asadbeig1122/githubaction.git'
@@ -31,4 +31,3 @@ pipeline {
         }
     }
 }
-
