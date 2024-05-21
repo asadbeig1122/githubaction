@@ -13,7 +13,7 @@ pipeline {
         stage('Build docker image') {
             steps {
                 
-                sh 'docker build -t asadsadaqat11/test:$BUILD_NUMBER .'
+                sh 'sudo docker build -t asadsadaqat11/test:$BUILD_NUMBER .'
             }
         }
         stage('Login to DockerHub') {
